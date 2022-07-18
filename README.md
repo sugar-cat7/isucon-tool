@@ -11,6 +11,9 @@ isucon12 用最強ツール集
 
 - ベンチマーカ用のインスタンスで benchmarker のありかを探して script/benchmarker.sh を修正
 
+- AWS インスタンスの CPU アーキテクチャを確認し、ダウンロードする alp のバイナリを指定する。
+  [参考](https://github.com/toshikingggg/isucon-tool/pull/2#discussion_r923375994)
+
 ```sh
 #要修正
 cd /home/isucon/benchmarker

@@ -10,7 +10,7 @@ sudo apt update
 sudo apt install percona-toolkit
 
 TOOL_PATH='/home/isucon/isucon-tool/script'
-
+echo "export TOOL_PATH='/home/isucon/isucon-tool/script'" >>~/.bashrc
 echo ". $TOOL_PATH/.bashrc" >>~/.bashrc
 source ~/.bashrc
 
