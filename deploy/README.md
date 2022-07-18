@@ -6,6 +6,7 @@
 --- | --- | ---
 deploy-remote.sh | リモート上で実行されるシェルスクリプトをまとめたもの | remote@/home/isucon
 deploy.sh | ローカル上に置いておくスクリプト | 任意
+.gitignore | アプリケーションリポジトリ用の.gitignore | remote@/home/isucon/webapp
 
 ## 準備
 
