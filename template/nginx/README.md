@@ -27,7 +27,11 @@ sudo systemctl status nginx
   * auto: 仮想CPU数に同じ
   * 確認方法: ベンチマーカー実行時に`top`コマンドで監視し、nginxプロセスを数える
 * worker_limit_nofile C(=0.95D)
+  * 単一のworker_processにおける、ファイルディスクリプタの上限値を表す
   * 算出方法: B * 設定する予定のworker_rlimit_nofileの値 < A以下の値
     * →逆算 D: A / B = 設定すべきworker_rlimit_nofileの値
     * →ギリギリの値設定ではエラーが起こり得るので5%ほど削減する: 0.95×D
-* 参考: [Nginx worker_connectionsとworker_rlimit_nofileの値は何がいいのか？](https://qiita.com/mikene_koko/items/85fbe6a342f89bf53e89)
+
+# 参考文献
+* [Nginx] worker_connectionsとworker_rlimit_nofileの値は何がいいのか？: https://qiita.com/mikene_koko/items/85fbe6a342f89bf53e89
+* Full Example Configuration: https://www.nginx.com/resources/wiki/start/topics/examples/full/
