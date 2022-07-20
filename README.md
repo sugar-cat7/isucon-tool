@@ -46,36 +46,13 @@ mysql> set global slow_query_log = ON;
 $ sudo systemctl restart isucon.go
 ```
 
-### nginx
+# nginxの設定
 
-json にフォーマットする設定を　`/etc/nginx/nginx.conf`に追加
-
-```
-
-   log_format json escape=json '{"time":"$time_iso8601",'
-				    '"host":"$remote_addr",'
-				    '"port":$remote_port,'
-				    '"method":"$request_method",'
-				    '"uri":"$request_uri",'
-				    '"status":"$status",'
-				    '"body_bytes":$body_bytes_sent,'
-				    '"referer":"$http_referer",'
-				    '"ua":"$http_user_agent",'
-				    '"request_time":"$request_time",'
-				    '"response_time":"$upstream_response_time"}';
-    server{
-	    access_log /var/log/nginx/access.log json;
-    }
-```
-
-- config 設定後
-
+* `template/nginx/`を参照してください。
+* bench 実行後に alp json でログを見て、alias を良い感じに書き換えてください。
 ```bash
-# 設定ファイルに問題ないかテスト
-$ nginx -t
-# 設定を反映させるためにリロード
-$ sudo systemctl restart nginx
+alias alpj=alp json --sort <avg/sum> -r -m <reg exp> -o count,method,uri,min,avg,max,sum < /var/log/nginx/<access log>
 ```
-
-- bench 実行後に alp json でログを見て、alias を良い感じに書き換える。
-  `alias alpj=alp json --sort sum -r -m ‘/api/condition/.*,/api/isu/.*/graph,/api/isu/.*/icon,/api/isu/.*,/isu/.*/graph,/isu/.*/condition,/isu/.*’ -o count,method,uri,min,avg,max,sum < /var/log/nginx/access.log`
+* \<reg exp\>の例
+  * private-isu: "/posts/[0-9]+,/@\w+,/image/\d+"
+  * isucon11 予選: "/api/condition/.*,/api/isu/.*/graph,/api/isu/.*/icon,/api/isu/.*,/isu/.*/graph,/isu/.*/condition,/isu/.*"
