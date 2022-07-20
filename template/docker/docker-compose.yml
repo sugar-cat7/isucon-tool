@@ -1,0 +1,65 @@
+services:
+  ## nginxは設定ファイルが結局本番環境と違うものになってしまうので一旦コメントアウト
+  # nginx:
+  #   image: nginx:1.22
+  #   volumes:
+  #     - ./etc/nginx/conf.d:/etc/nginx/conf.d
+  #     - ./public:/public
+  #     - ./logs/nginx:/var/log/nginx
+  #   ports:
+  #     - "80:80"
+  #   links:
+  #     - app
+
+  app:
+    container_name: webapp
+    build:
+      context: golang
+      dockerfile: Dockerfile.go
+    environment:
+      # 環境変数名は本番環境を見ながら変更すること
+      # DB_USERやDB_PASSWORDは別にrootのままで問題ないはず
+      ISUCONP_DB_HOST: mysql
+      ISUCONP_DB_PORT: 3306
+      ISUCONP_DB_USER: root
+      ISUCONP_DB_PASSWORD: root
+      ISUCONP_DB_NAME: isuconp
+    links:
+      - mysql
+      - memcached
+    volumes:
+      - ./public:/home/public
+      - ./sql:/home/sql # ISUCON11ではSQLの初期化スクリプトがここに入っていたのでマウントしておく
+    ports:
+      - "3000:3000"
+    init: true
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1g
+    depends_on:
+      - mysql
+
+  # 本番のDB何かわからないが、MySQLと互換性があれば良いのでとりあえずこれでOK
+  mysql:
+    container_name: mysql
+    image: mysql/mysql-server:8.0
+    environment:
+      - "TZ=Asia/Tokyo"
+      - "MYSQL_ROOT_HOST=%"
+      - "MYSQL_ROOT_PASSWORD=root"
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+      - ./logs/mysql:/var/log/mysql
+    ports:
+      - "3306:3306"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1g
+
+volumes:
+  mysql:
