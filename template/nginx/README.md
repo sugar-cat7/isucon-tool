@@ -1,10 +1,20 @@
 # Nginx周りの最適化に関する設定を集約する
 
+* 設定を更新した場合は、設定内容のテストと設定の適用(サービスの再起動)をするべき
+```bash
+# 設定内容のテスト
+nginx -t
+# 設定の適用
+sudo systemctl restart nginx
+# サービスの起動状況確認
+sudo systemctl status nginx
+```
+
 ## アクセスログをJSON形式に変換する方法
 * `nginx.conf`を参照
 
 ## 静的コンテンツ配信による最適化
-* `/sites-available/application.conf`を参照
+* `application.conf`を参照
 
 ## 伝送ファイル圧縮による最適化
 * `nginx.conf`を参照
