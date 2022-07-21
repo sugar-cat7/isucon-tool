@@ -26,18 +26,12 @@ services:
       ISUCONP_DB_NAME: isuconp
     links:
       - mysql
-      - memcached
     volumes:
       - ./public:/home/public
       - ./sql:/home/sql # ISUCON11ではSQLの初期化スクリプトがここに入っていたのでマウントしておく
     ports:
       - "3000:3000"
     init: true
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 1g
     depends_on:
       - mysql
 
@@ -55,11 +49,6 @@ services:
       - ./logs/mysql:/var/log/mysql
     ports:
       - "3306:3306"
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 1g
 
 volumes:
   mysql:
