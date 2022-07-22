@@ -16,9 +16,9 @@ sudo systemctl restart isu-go
       * `app.go`
       * `go.mod`
       * `my-modules/`: 自作モジュール用Goファイルを格納していくところ
-        * `module1`: ソースコード上部に`package module1`を記載すること
-        * `module2`
-        * `...`
+        * `module1`: ソースコード上部に`package my-modules`を記載すること
+        * `module2`: ソースコード上部に`package my-modules`を記載すること
+        * `...`: ソースコード上部に`package my-modules`を記載すること
   * Step.1: `app.go`から`my-modules/module1`へ任意の処理を抽出する
     * `app.go`に`import`予定の構造体や関数などは大文字から命名すること
   * Step.2: `app.go`で`import "my-modules"`する
