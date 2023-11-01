@@ -12,3 +12,11 @@ build:
 .PHONY: pprof
 pprof:
 	go tool pprof -http=0.0.0.0:8080 /home/isucon/webapp/go/<service name> http://localhost:6060/debug/pprof/profile
+# アプリファイルに下記を追記する
+# _ "net/http/pprof"
+# func main() {
+# 	go func () {
+# 		log.Fatal(http.ListenAndServe(":6060", nil))
+# 	}()
+# 	...
+# }
