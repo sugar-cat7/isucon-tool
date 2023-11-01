@@ -9,11 +9,6 @@ rm alp
 sudo apt update
 sudo apt install percona-toolkit
 
-TOOL_PATH='/home/isucon/isucon-tool/script'
-echo "export TOOL_PATH='/home/isucon/isucon-tool/script'" >>~/.bashrc
-echo ". $TOOL_PATH/.bashrc" >>~/.bashrc
-source ~/.bashrc
-
-# logs just after benchmarker
-mkdir -p /home/isucon/logs/sql
-mkdir -p /home/isucon/logs/nginx
+# ベンチマーカー後のログファイルを集計するディレクトリ
+mkdir -p /home/isucon/webapp/logs/sql
+mkdir -p /home/isucon/webapp/logs/nginx

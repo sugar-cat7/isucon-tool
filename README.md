@@ -16,12 +16,17 @@ isucon13 用最強ツール集
 
   - 必要なツールのインストール(alp, pt-query-digest)
   - log 出力先ディレクトリの作成
-    - /home/isucon/logs/nginx/
-    - /home/isucon/logs/sql/
+    - /home/isucon/webapp/logs/nginx/
+    - /home/isucon/webapp/logs/sql/
 
 ## ログファイルのありか
 
-`/home/isucon/logs`に sql,nginx それぞれの解析結果が保存されています。
+`/home/isucon/webapp/logs`に sql,nginx それぞれの解析結果が保存される。
+
+- sql/digest_YYYYMMDD.txt：ベンチ実行後の mysql-slow.log に pt-query-digester を噛ませたもの
+- nginx/access.log.YYYYMMDD：ベンチ実行後の access.log
+
+※webapp の部分は、本番のアプリケーションフォルダに応じて更新する必要がある
 
 # MySQL の設定
 
@@ -32,6 +37,8 @@ mysql> set global slow_query_log_file = '/var/log/mysql/mysql-slow.log';
 mysql> set global long_query_time = 0;
 mysql> set global slow_query_log = ON;
 ```
+
+※スキーマ設定する SQL ファイルがある場合、その中に記述するのが良い
 
 # アプリケーションプロセスの再起動
 
