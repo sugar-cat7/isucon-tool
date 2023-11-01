@@ -7,6 +7,7 @@ build:
 	sudo systemctl restart <service name>.go.service;
 
 # pprofのデータをwebビューで見る
+# VSCode Remote SSHしていれば、Auto Forwardedで閲覧できる
 # サーバー上で sudo apt install graphvizが必要
 # 公式：https://pkg.go.dev/net/http/pprof
 .PHONY: pprof
