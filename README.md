@@ -2,14 +2,22 @@
 
 isucon13 用最強ツール集
 
+## 注意点
+
+本番では、過去問や private-isu とは異なるディレクトリ構成かもしれないので、各種スクリプトの Path は適宜調整すること
+
+ここでは`/home/isucon/`下に`webapp`ディレクトリが存在すると仮定している。
+
+- private-isu では、`/home/isucon/private-isu/webapp/`となっている
+- isucon11-qualify では、`home/isucon/webapp/`となっている
+
 ## 使い方
 
-- isucon user へ変更
-  `sudo su - isucon`
+- インスタンスへ isucon ユーザでログイン
 
-- /home/isucon でこのリポジトリをクローン
+- /home/isucon/ でこのリポジトリをクローン
 
-- AWS インスタンスの CPU アーキテクチャを確認し、ダウンロードする alp のバイナリを指定する。
+- インスタンスの CPU アーキテクチャを確認し、ダウンロードする alp のバイナリを指定する。
   [参考](https://github.com/toshikingggg/isucon-tool/pull/2#discussion_r923375994)
 
 - `/script/setup.sh` を実行
