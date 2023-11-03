@@ -40,12 +40,6 @@ mysql> set global slow_query_log = ON;
 
 ※スキーマ設定する SQL ファイルがある場合、その中に記述するのが良い
 
-# アプリケーションプロセスの再起動
-
-```bash
-$ sudo systemctl restart isucon.go
-```
-
 # nginx の設定
 
 - `template/nginx/`を参照してください。
