@@ -1,40 +1,44 @@
 # isucon-tool
 
-isucon12 用最強ツール集
+isucon13 用最強ツール集
+
+## 注意点
+
+本番では、過去問や private-isu とは異なるディレクトリ構成かもしれないので、各種スクリプトの Path は適宜調整すること
+
+ここでは`/home/isucon/`下に`webapp`ディレクトリが存在すると仮定している。
+
+- private-isu では、`/home/isucon/private-isu/webapp/`となっている
+- isucon11-qualify では、`home/isucon/webapp/`となっている
 
 ## 使い方
 
-- isucon user へ変更
-  `sudo su - isucon`
+- インスタンスへ isucon ユーザでログイン
 
-- /home/isucon でこのリポジトリをクローン
+- /home/isucon/ でこのリポジトリをクローン
 
-- ベンチマーカ用のインスタンスで benchmarker のありかを探して script/benchmarker.sh を修正
-
-- AWS インスタンスの CPU アーキテクチャを確認し、ダウンロードする alp のバイナリを指定する。
+- インスタンスの CPU アーキテクチャを確認し、ダウンロードする alp のバイナリを指定する。
   [参考](https://github.com/toshikingggg/isucon-tool/pull/2#discussion_r923375994)
 
-```sh
-#要修正
-cd /home/isucon/benchmarker
-bin/benchmarker | tee tee /home/isucon/logs/bench/$MESSAGE.txt
-```
-
-- `. ./script/setup.sh` を実行
+- `/script/setup.sh` を実行
 
   - 必要なツールのインストール(alp, pt-query-digest)
-  - alias の設定
-    - `pqd`: pt-query-digest でクエリ分析
-    - `alpj`: alp で nginx のログを分析
-    - `bench`: isucon 用のベンチマーカー実行
+  - log 出力先ディレクトリの作成
+    - /home/isucon/webapp/logs/nginx/
+    - /home/isucon/webapp/logs/sql/
 
 ## ログファイルのありか
 
-`~/isucon/logs`に sql,bench,nginx それぞれの解析結果が保存されています。
+`/home/isucon/webapp/logs`に sql,nginx それぞれの解析結果が保存される。
+
+- sql/digest_YYYYMMDD.txt：ベンチ実行後の mysql-slow.log に pt-query-digester を噛ませたもの
+- nginx/access.log.YYYYMMDD：ベンチ実行後の access.log
+
+※webapp の部分は、本番のアプリケーションフォルダに応じて更新する必要がある
 
 # MySQL の設定
 
-- 今回に関しては mysql のコンソールから直接設定する(restart するとリセットされるので注意)
+- mysql のコンソールから直接設定する場合(restart するとリセットされるので注意)
 
 ```
 mysql> set global slow_query_log_file = '/var/log/mysql/mysql-slow.log';
@@ -42,17 +46,17 @@ mysql> set global long_query_time = 0;
 mysql> set global slow_query_log = ON;
 ```
 
-```bash
-$ sudo systemctl restart isucon.go
-```
+※スキーマ設定する SQL ファイルがある場合、その中に記述するのが良い
 
-# nginxの設定
+# nginx の設定
 
-* `template/nginx/`を参照してください。
-* bench 実行後に alp json でログを見て、alias を良い感じに書き換えてください。
+- `template/nginx/`を参照してください。
+- bench 実行後に alp json でログを見て、alias を良い感じに書き換えてください。
+
 ```bash
 alias alpj=alp json --sort <avg/sum> -r -m <reg exp> -o count,method,uri,min,avg,max,sum < /var/log/nginx/<access log>
 ```
-* \<reg exp\>の例
-  * private-isu: "/posts/[0-9]+,/@\w+,/image/\d+"
-  * isucon11 予選: "/api/condition/.*,/api/isu/.*/graph,/api/isu/.*/icon,/api/isu/.*,/isu/.*/graph,/isu/.*/condition,/isu/.*"
+
+- \<reg exp\>の例
+  - private-isu: "/posts/[0-9]+,/@\w+,/image/\d+"
+  - isucon11 予選: "/api/condition/._,/api/isu/._/graph,/api/isu/._/icon,/api/isu/._,/isu/._/graph,/isu/._/condition,/isu/.\*"
