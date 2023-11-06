@@ -51,12 +51,18 @@ mysql> set global slow_query_log = ON;
 # nginx の設定
 
 - `template/nginx/`を参照してください。
-- bench 実行後に alp json でログを見て、alias を良い感じに書き換えてください。
 
 ```bash
-alias alpj=alp json --sort <avg/sum> -r -m <reg exp> -o count,method,uri,min,avg,max,sum < /var/log/nginx/<access log>
+# alp command example
+alp json --sort <avg/sum> -r -m <reg exp> -o count,method,uri,min,avg,max,sum < /home/isucon/webapp/logs/nginx/<access.log.YYYYMMDD>
+
+# recommended: alias
+alias alpj=alp json --sort <avg/sum> -r -m <reg exp> -o count,method,uri,min,avg,max,sum
+# usage
+alpj < access.log.xxx
 ```
 
 - \<reg exp\>の例
   - private-isu: "/posts/[0-9]+,/@\w+,/image/\d+"
-  - isucon11 予選: "/api/condition/._,/api/isu/._/graph,/api/isu/._/icon,/api/isu/._,/isu/._/graph,/isu/._/condition,/isu/.\*"
+  - isucon11-q: "/api/condition/._,/api/isu/._/graph,/api/isu/._/icon,/api/isu/._,/isu/._/graph,/isu/._/condition,/isu/.\*"
+  - isucon12-q: "/api/player/competition/[A-Za-z0-9]+/ranking,/api/organizer/competition/[A-Za-z0-9]+/score,/api/organizer/competition/[A-Za-z0-9]+/finish,/api/organizer/player/[A-Za-z0-9]+/disqualified,/api/player/player/[A-Za-z0-9]+"
