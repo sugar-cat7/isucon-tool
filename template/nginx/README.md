@@ -11,34 +11,37 @@ sudo systemctl restart nginx
 sudo systemctl status nginx
 ```
 
-## 各種最適化
+## 各種設定・最適化
 
-### アクセスログを JSON 形式に変換する方法
+### 序盤
 
-nginx.conf 参照
+- [ ] アクセスログを JSON 形式に変換する
+- [ ] 伝送ファイル圧縮をする(gzip を on にする)
+- [ ] 静的コンテンツを配信する(js/css/ico/gif/png/jpg などなど)
+- [ ] worker_connections と worker_rlimit_nofile を増やす(=OS の ulimit を増やす)
 
-### 静的コンテンツ配信による最適化
+### 中盤
 
-application.conf 参照
+- [ ] Nginx の CPU が高すぎる場合、gzip を off にする
+- [ ] (API が同じクエリパラメータで同じ結果を返す場合)API レスポンスのキャッシュ設定をする([api-response-cache.conf](./api-response-cache.conf)を参照)
 
-### 伝送ファイル圧縮による最適化
+### 終盤
 
-nginx.conf 参照
+- [ ] access.log はじめファイル出力を off にする
 
-## worker_connections 最適化
+## worker connections に関して
 
-- 結論: < C / 4 の範囲でよしなに指定
+- 結論: C / 4 未満 の範囲で指定
 
 - OS で扱える最大ファイル数 A
   - 確認コマンド: `cat /proc/sys/fs/file-max`
-- worker_process 数 B
-  - auto: 仮想 CPU 数に同じ
+- worker_process 数 B(仮想 CPU 数に同じ)
   - 確認方法: ベンチマーカー実行時に`top`コマンドで監視し、nginx プロセスを数える
 - worker_limit_nofile C(=0.95D)
   - 単一の worker_process における、ファイルディスクリプタの上限値を表す
-  - 算出方法: B \* 設定する予定の worker_rlimit_nofile の値 < A 以下の値
-    - → 逆算 D: A / B = 設定すべき worker_rlimit_nofile の値
-    - → ギリギリの値設定ではエラーが起こり得るので 5%ほど削減する: 0.95×D
+  - 算出方法: B × (設定する予定の worker_rlimit_nofile の値) < A となる値
+    - 逆算すると D(設定すべき worker_rlimit_nofile の値) = A / B
+    - ギリギリの値設定ではエラーが起こり得るので 5%ほど削減する -> 0.95×D
 
 # 参考文献
 
