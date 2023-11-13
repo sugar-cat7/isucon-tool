@@ -57,7 +57,7 @@ mysql> set global slow_query_log = ON;
 alp json --sort <avg/sum> -r -m <reg exp> -o count,method,uri,min,avg,max,sum < /home/isucon/webapp/logs/nginx/<access.log.YYYYMMDD>
 
 # recommended: alias
-alias alpj=alp json --sort <avg/sum> -r -m <reg exp> -o count,method,uri,min,avg,max,sum
+alias alpj=alp json --sort <avg/sum> -r -o count,method,uri,min,avg,max,sum -m <reg exp>
 # usage
 alpj < access.log.xxx
 ```
