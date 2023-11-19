@@ -24,6 +24,7 @@ sudo systemctl status nginx
 
 - [ ] Nginx の CPU が高すぎる場合、gzip を off にする
 - [ ] (API が同じクエリパラメータで同じ結果を返す場合)API レスポンスのキャッシュ設定をする([api-response-cache.conf](./api-response-cache.conf)を参照)
+- [ ] nginx と Go アプリの接続をソケット通信にする([practice-for-isucon](https://github.com/naruwo-github/practice-for-isucon/blob/main/golang/app.go#L906))
 
 ### 終盤
 

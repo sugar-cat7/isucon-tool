@@ -32,3 +32,8 @@ DB のコネクションプールに関する設定を（抜けている場合�
 ```bash
 grep processor /proc/cpuinfo
 ```
+
+## Go アプリとのソケット通信
+
+- app: https://github.com/naruwo-github/practice-for-isucon/blob/main/golang/app.go#L872
+- mysql: https://github.com/naruwo-github/practice-for-isucon/blob/main/etc/my.cnf#L22
