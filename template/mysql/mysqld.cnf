@@ -1,0 +1,41 @@
+[mysqld]
+# ネットワーク上のどのアドレスからでも接続可能に設定
+bind-address            = 0.0.0.0
+
+# キーバッファサイズを16MBに設定（MyISAM用）
+key_buffer_size         = 16M
+
+# MyISAMテーブルのリカバリオプションを設定
+myisam-recover-options  = BACKUP
+
+# InnoDBバッファプールサイズを1GBに設定。サーバーのメモリに合わせて調整
+innodb_buffer_pool_size = 1G
+
+# パフォーマンススキーマを無効化（リソース節約のため、ただし詳細な監視ができなくなる）
+performance_schema = off
+
+# エラーログの出力先設定
+log_error = /var/log/mysql/error.log
+
+# 遅いクエリログを有効にし、すべてのクエリを記録（パフォーマンス分析に有用だがログサイズが大きくなる可能性あり）
+slow_query_log          = 1
+slow_query_log_file     = /var/log/mysql/mysql-slow.log
+long_query_time = 0
+
+# バイナリログの最大サイズを100MBに設定
+max_binlog_size   = 100M
+
+# InnoDBのダブルライトを無効に（パフォーマンス向上が見込めるが、データの整合性リスク増加）
+innodb_doublewrite = 0
+
+# バイナリログを無効化（レプリケーションやデータ復旧時に必要な場合があるため慎重に検討が必要）
+disable-log-bin
+
+# トランザクションログのフラッシュを1秒に1回に設定（パフォーマンス向上だが、クラッシュ時にデータ損失のリスク）
+innodb_flush_log_at_trx_commit = 2
+
+# InnoDBのフラッシュ方法をO_DIRECTに設定（I/Oオーバーヘッド減少）
+innodb_flush_method = O_DIRECT
+
+# オートインクリメントロックモードを2に設定（ロック競合を減らすが、特定のトランザクション分離レベルでの問題の可能性）
+innodb_autoinc_lock_mode = 2
