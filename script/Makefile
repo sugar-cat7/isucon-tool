@@ -10,14 +10,21 @@ build:
 # VSCode Remote SSHしていれば、Auto Forwardedで閲覧できる
 # サーバー上で sudo apt install graphvizが必要
 # 公式：https://pkg.go.dev/net/http/pprof
+
+# PortForward
+# ssh isucon@<Public IP> -fNL 1080:localhost:1080
 .PHONY: pprof
 pprof:
-	go tool pprof -http=0.0.0.0:8080 /home/isucon/webapp/go/<service name> http://localhost:6060/debug/pprof/profile
-# アプリファイルに下記を追記する
+	go tool pprof -seconds 60 -http=localhost:1080 http://localhost:6060/debug/pprof/profile
+# TODO: fix entrypoint
 # _ "net/http/pprof"
+# "runtime"
+
 # func main() {
-# 	go func () {
-# 		log.Fatal(http.ListenAndServe(":6060", nil))
-# 	}()
-# 	...
+# runtime.SetBlockProfileRate(1)
+# runtime.SetMutexProfileFraction(1)
+# go func() {
+# 	log.Fatal(http.ListenAndServe("localhost:6060", nil))
+# }()
 # }
+
