@@ -9,6 +9,8 @@ rm alp
 sudo apt update
 sudo apt install percona-toolkit
 
-# ベンチマーカー後のログファイルを集計するディレクトリ
+# pprof
+sudo apt install graphviz
+
 mkdir -p /home/isucon/webapp/logs/sql
 mkdir -p /home/isucon/webapp/logs/nginx
